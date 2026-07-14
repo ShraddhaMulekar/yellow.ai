@@ -5,11 +5,16 @@ import ConversationList from "./components/conversation/ConversationList";
 import type { Conversation } from "./types/conversation";
 import ConversationDetails from "./components/conversation/ConversationDetails";
 import SearchBar from "./components/filters/SearchBar";
+import FilterBar from "./components/filters/FilterBar";
+import type { PriorityFilter, StatusFilter } from "./types/filter";
 
 function App() {
-  const {data, isLoading, error} = useConversations();
-  const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
+  const { data, isLoading, error } = useConversations();
+  const [selectedConversation, setSelectedConversation] =
+    useState<Conversation | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [priorityFilter, setPriorityFilter] = useState<PriorityFilter>("All");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("All");
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -19,37 +24,46 @@ function App() {
     return <h1>Error: {error.message}</h1>;
   }
 
-  const filteredConversations = (data ?? []).filter((conversation)=>{
+  const filteredConversations = (data ?? []).filter((conversation) => {
     const search = searchTerm.toLowerCase();
 
-    return(
+    const matchesSearch =
       conversation.customerName.toLowerCase().includes(search) ||
       conversation.subject.toLowerCase().includes(search) ||
-      conversation.customerEmail.toLowerCase().includes(search)
-    )
-  })
+      conversation.customerEmail.toLowerCase().includes(search);
 
-  console.log(data)
+    const matchesPriority =
+      priorityFilter === "All" || conversation.priority === priorityFilter;
 
-  return(
+    const matchesStatus =
+      statusFilter === "All" || conversation.status === statusFilter;
+
+    return matchesSearch && matchesPriority && matchesStatus;
+  });
+
+  console.log(data);
+
+  return (
     <>
       <h1>Conversation Inbox</h1>
 
-      <SearchBar
-        searchTerm = {searchTerm}
-        onSearchChange = {setSearchTerm}
+      <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+
+      <FilterBar
+        priority={priorityFilter}
+        status={statusFilter}
+        onPriorityChange={setPriorityFilter}
+        onStatusChange={setStatusFilter}
       />
-      
+
       <ConversationList
-        conversations = {filteredConversations}
-        onSelect = {setSelectedConversation}
+        conversations={filteredConversations}
+        onSelect={setSelectedConversation}
       />
 
       <hr />
 
-      <ConversationDetails
-        conversation = {selectedConversation}
-      />
+      <ConversationDetails conversation={selectedConversation} />
     </>
   );
 }
