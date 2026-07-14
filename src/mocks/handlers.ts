@@ -7,7 +7,7 @@ export const handlers = [
 
     return HttpResponse.json(conversations);
   }),
-  
+
   http.patch("/conversations/:id/assign", async ({ params }) => {
     await delay(500);
 
@@ -26,4 +26,24 @@ export const handlers = [
 
     return HttpResponse.json(conversation);
   }),
+
+  http.patch("/conversations/:id/resolve", async ({ params }) => {
+  await delay(500);
+
+  const { id } = params;
+
+  const conversation = conversations.find(
+    (item) => item.id === id
+  );
+
+  if (!conversation) {
+    return new HttpResponse(null, {
+      status: 404,
+    });
+  }
+
+  conversation.status = "Resolved";
+
+  return HttpResponse.json(conversation);
+}),
 ];
