@@ -1,4 +1,5 @@
 import { useConversations } from "./hooks/useConversations";
+import ConversationList from "./components/conversation/ConversationList";
 
 function App() {
   const {data, isLoading, error} = useConversations();
@@ -16,7 +17,10 @@ function App() {
   return(
     <>
       <h1>Conversation Inbox</h1>
-      <p>Total Conversations: {data?.length}</p>
+      
+      <ConversationList
+        conversations = {data ?? []}
+      />
     </>
   );
 }
