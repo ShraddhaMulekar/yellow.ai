@@ -3,6 +3,7 @@ import "./index.css";
 import App from "./App";
 
 import { worker } from "./mocks/browser";
+import ReactQueryProvider from "./providers/ReactQueryProvider";
 
 async function enableMocking() {
   if (import.meta.env.DEV) {
@@ -12,6 +13,8 @@ async function enableMocking() {
 
 enableMocking().then(() => {
   createRoot(document.getElementById("root")!).render(
-    <App />
+    <ReactQueryProvider>
+      <App />
+    </ReactQueryProvider>
   );
 });
