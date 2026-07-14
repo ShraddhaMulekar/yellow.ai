@@ -9,9 +9,10 @@ import FilterBar from "./components/filters/FilterBar";
 import type { PriorityFilter, StatusFilter } from "./types/filter";
 import type { SortOption } from "./types/sort";
 import SortDropdown from "./components/filters/SortDropdown";
+import ErrorState from "./common/Error";
 
 function App() {
-  const { data, isLoading, error } = useConversations();
+  const { data, isLoading, error, refetch } = useConversations();
   const [selectedConversationId, setSelectedConversationId] = useState<
     string | null
   >(null);
@@ -25,8 +26,14 @@ function App() {
   }
 
   if (error) {
-    return <h1>Error: {error.message}</h1>;
-  }
+  return (
+    <ErrorState
+      title="Unable to load conversations"
+      description="Something went wrong while fetching conversations."
+      onRetry={refetch}
+    />
+  );
+}
 
   const filteredConversations = (data ?? []).filter((conversation) => {
     const search = searchTerm.toLowerCase();
