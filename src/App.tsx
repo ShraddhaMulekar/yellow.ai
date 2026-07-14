@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useConversations } from "./hooks/useConversations";
 
 import ConversationList from "./components/conversation/ConversationList";
-import type { Conversation } from "./types/conversation";
+// import type { Conversation } from "./types/conversation";
 import ConversationDetails from "./components/conversation/ConversationDetails";
 import SearchBar from "./components/filters/SearchBar";
 import FilterBar from "./components/filters/FilterBar";
@@ -10,8 +10,9 @@ import type { PriorityFilter, StatusFilter } from "./types/filter";
 
 function App() {
   const { data, isLoading, error } = useConversations();
-  const [selectedConversation, setSelectedConversation] =
-    useState<Conversation | null>(null);
+  const [selectedConversationId, setSelectedConversationId] = useState<
+    string | null
+  >(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [priorityFilter, setPriorityFilter] = useState<PriorityFilter>("All");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("All");
@@ -41,6 +42,11 @@ function App() {
     return matchesSearch && matchesPriority && matchesStatus;
   });
 
+  const selectedConversation =
+    filteredConversations.find(
+      (conversation) => conversation.id === selectedConversationId,
+    ) ?? null;
+
   console.log(data);
 
   return (
@@ -58,7 +64,7 @@ function App() {
 
       <ConversationList
         conversations={filteredConversations}
-        onSelect={setSelectedConversation}
+        onSelect={(conversation) => setSelectedConversationId(conversation.id)}
       />
 
       <hr />
