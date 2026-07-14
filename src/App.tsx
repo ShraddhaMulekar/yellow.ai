@@ -7,6 +7,8 @@ import ConversationDetails from "./components/conversation/ConversationDetails";
 import SearchBar from "./components/filters/SearchBar";
 import FilterBar from "./components/filters/FilterBar";
 import type { PriorityFilter, StatusFilter } from "./types/filter";
+import type { SortOption } from "./types/sort";
+import SortDropdown from "./components/filters/SortDropdown";
 
 function App() {
   const { data, isLoading, error } = useConversations();
@@ -16,6 +18,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [priorityFilter, setPriorityFilter] = useState<PriorityFilter>("All");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("All");
+  const [sortOption, setSortOption] = useState<SortOption>("Newest");
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -42,6 +45,36 @@ function App() {
     return matchesSearch && matchesPriority && matchesStatus;
   });
 
+  const sortedConversations = [...filteredConversations].sort((a, b) => {
+    switch (sortOption) {
+      case "Newest":
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+
+      case "Oldest":
+        return (
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
+
+      case "Priority": {
+        const priorityOrder = {
+          High: 3,
+          Medium: 2,
+          Low: 1,
+        };
+
+        return priorityOrder[b.priority] - priorityOrder[a.priority];
+      }
+
+      case "SLA":
+        return a.slaRemaining - b.slaRemaining;
+
+      default:
+        return 0;
+    }
+  });
+
   const selectedConversation =
     filteredConversations.find(
       (conversation) => conversation.id === selectedConversationId,
@@ -62,8 +95,13 @@ function App() {
         onStatusChange={setStatusFilter}
       />
 
+      <SortDropdown 
+        sort={sortOption} 
+        onSortChange={setSortOption} 
+      />
+
       <ConversationList
-        conversations={filteredConversations}
+        conversations={sortedConversations}
         onSelect={(conversation) => setSelectedConversationId(conversation.id)}
       />
 
