@@ -4,7 +4,7 @@ import { useConversations } from "./hooks/useConversations";
 import ConversationList from "./components/conversation/ConversationList";
 import type { Conversation } from "./types/conversation";
 import ConversationDetails from "./components/conversation/ConversationDetails";
-import SearchBar from "./components/SearchBar";
+import SearchBar from "./components/filters/SearchBar";
 
 function App() {
   const {data, isLoading, error} = useConversations();
