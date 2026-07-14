@@ -5,14 +5,18 @@ interface SearchBarProps {
 }
 
 const SearchBar = ({ searchTerm, onSearchChange }: SearchBarProps) => {
-    return(
-        <input
-            type="text"
-            placeholder="Search conversations..."
-            value={searchTerm}
-            onChange={(e) => onSearchChange(e.target.value)}
-        />
-    )
-}
+    return (
+        <div className="search-container">
+            <span className="search-icon">🔍</span>
+            <input
+                className="search-input"
+                type="text"
+                placeholder="Search name, email, subject..."
+                value={searchTerm}
+                onChange={(e) => onSearchChange(e.target.value)}
+            />
+        </div>
+    );
+};
 
 export default SearchBar;

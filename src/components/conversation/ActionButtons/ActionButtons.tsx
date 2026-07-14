@@ -25,8 +25,8 @@ function ActionButtons({
   // Already resolved
   if (status === "Resolved") {
     return (
-      <button disabled>
-        Resolved
+      <button className="btn btn-resolved" disabled>
+        ✓ Resolved
       </button>
     );
   }
@@ -35,10 +35,11 @@ function ActionButtons({
   if (assignedTo === null) {
     return (
       <button
+        className="btn btn-assign"
         onClick={() => assignMutate(id)}
         disabled={isAssigning}
       >
-        {isAssigning ? "Assigning..." : "Assign"}
+        👤 {isAssigning ? "Assigning..." : "Assign to Me"}
       </button>
     );
   }
@@ -46,10 +47,11 @@ function ActionButtons({
   // Assigned but not resolved
   return (
     <button
+      className="btn btn-resolve"
       onClick={() => resolveMutate(id)}
       disabled={isResolving}
     >
-      {isResolving ? "Resolving..." : "Resolve"}
+      ✓ {isResolving ? "Resolving..." : "Mark as Resolved"}
     </button>
   );
 }

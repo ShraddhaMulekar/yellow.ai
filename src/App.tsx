@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useConversations } from "./hooks/useConversations";
 
 import ConversationList from "./components/conversation/ConversationList";
-// import type { Conversation } from "./types/conversation";
 import ConversationDetails from "./components/conversation/ConversationDetails";
 import SearchBar from "./components/filters/SearchBar";
 import FilterBar from "./components/filters/FilterBar";
@@ -10,6 +9,10 @@ import type { PriorityFilter, StatusFilter } from "./types/filter";
 import type { SortOption } from "./types/sort";
 import SortDropdown from "./components/filters/SortDropdown";
 import ErrorState from "./common/Error";
+
+import Header from "./components/layout/Header";
+import Sidebar from "./components/layout/Sidebar";
+import MainContent from "./components/layout/MainContent";
 
 function App() {
   const { data, isLoading, error, refetch } = useConversations();
@@ -22,7 +25,12 @@ function App() {
   const [sortOption, setSortOption] = useState<SortOption>("Newest");
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner" />
+        <h2>Loading Conversations...</h2>
+      </div>
+    );
   }
 
   if (error) {
@@ -90,32 +98,34 @@ function App() {
   console.log(data);
 
   return (
-    <>
-      <h1>Conversation Inbox</h1>
-
-      <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
-
-      <FilterBar
-        priority={priorityFilter}
-        status={statusFilter}
-        onPriorityChange={setPriorityFilter}
-        onStatusChange={setStatusFilter}
-      />
-
-      <SortDropdown 
-        sort={sortOption} 
-        onSortChange={setSortOption} 
-      />
-
-      <ConversationList
-        conversations={sortedConversations}
-        onSelect={(conversation) => setSelectedConversationId(conversation.id)}
-      />
-
-      <hr />
-
-      <ConversationDetails conversation={selectedConversation} />
-    </>
+    <div className="app-container">
+      <Header />
+      <div className="app-layout">
+        <Sidebar>
+          <div className="sidebar-search-filter">
+            <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+            <FilterBar
+              priority={priorityFilter}
+              status={statusFilter}
+              onPriorityChange={setPriorityFilter}
+              onStatusChange={setStatusFilter}
+            />
+            <SortDropdown 
+              sort={sortOption} 
+              onSortChange={setSortOption} 
+            />
+          </div>
+          <ConversationList
+            conversations={sortedConversations}
+            onSelect={(conversation) => setSelectedConversationId(conversation.id)}
+            selectedId={selectedConversationId}
+          />
+        </Sidebar>
+        <MainContent>
+          <ConversationDetails conversation={selectedConversation} />
+        </MainContent>
+      </div>
+    </div>
   );
 }
 

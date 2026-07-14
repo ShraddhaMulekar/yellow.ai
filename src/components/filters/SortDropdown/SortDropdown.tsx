@@ -10,10 +10,10 @@ function SortDropdown({
   onSortChange,
 }: SortDropdownProps) {
   return (
-    <label>
-      Sort By:
-
+    <div className="filter-group sort-dropdown">
+      <label className="filter-label">Sort By</label>
       <select
+        className="filter-select"
         value={sort}
         onChange={(e) =>
           onSortChange(e.target.value as SortOption)
@@ -24,7 +24,7 @@ function SortDropdown({
         <option value="Priority">Priority</option>
         <option value="SLA">SLA Remaining</option>
       </select>
-    </label>
+    </div>
   );
 }
 

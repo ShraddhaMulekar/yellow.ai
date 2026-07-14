@@ -15,32 +15,34 @@ const FilterBar = ({
   onStatusChange,
 }: FilterBarProps) => {
   return (
-    <div>
-      <label>
-        Priority:
+    <div className="filter-bar">
+      <div className="filter-group">
+        <label className="filter-label">Priority</label>
         <select
+          className="filter-select"
           value={priority}
           onChange={(e) => onPriorityChange(e.target.value as PriorityFilter)}
         >
-          <option value="All">All</option>
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
+          <option value="All">All Priorities</option>
+          <option value="High">🔴 High</option>
+          <option value="Medium">🟠 Medium</option>
+          <option value="Low">🔵 Low</option>
         </select>
-      </label>
+      </div>
 
-      <label>
-        Status:
+      <div className="filter-group">
+        <label className="filter-label">Status</label>
         <select
+          className="filter-select"
           value={status}
           onChange={(e) => onStatusChange(e.target.value as StatusFilter)}
         >
-          <option value="All">All</option>
-          <option value="Open">Open</option>
-          <option value="Assigned">Assigned</option>
-          <option value="Resolved">Resolved</option>
+          <option value="All">All Statuses</option>
+          <option value="Open">🟢 Open</option>
+          <option value="Assigned">🟣 Assigned</option>
+          <option value="Resolved">⚪ Resolved</option>
         </select>
-      </label>
+      </div>
     </div>
   );
 };

@@ -8,7 +8,7 @@ function MainContent({
   children,
 }: MainContentProps) {
   return (
-    <main>
+    <main className="main-content">
       {children}
     </main>
   );

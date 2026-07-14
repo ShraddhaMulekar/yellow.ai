@@ -10,13 +10,12 @@ function ErrorState({
   onRetry,
 }: ErrorStateProps) {
   return (
-    <div>
-      <h2>{title}</h2>
-
-      <p>{description}</p>
-
-      <button onClick={onRetry}>
-        Retry
+    <div className="error-state">
+      <div className="error-icon">⚠️</div>
+      <h2 className="error-title">{title}</h2>
+      <p className="error-description">{description}</p>
+      <button className="btn btn-retry" onClick={onRetry}>
+        🔄 Try Again
       </button>
     </div>
   );

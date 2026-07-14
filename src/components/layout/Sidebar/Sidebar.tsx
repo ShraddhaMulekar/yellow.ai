@@ -6,7 +6,7 @@ interface SidebarProps {
 
 function Sidebar({ children }: SidebarProps) {
   return (
-    <aside>
+    <aside className="app-sidebar">
       {children}
     </aside>
   );
