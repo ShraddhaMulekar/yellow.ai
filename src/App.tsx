@@ -100,21 +100,23 @@ function App() {
   return (
     <div className="app-container">
       <Header />
+      
+      <div className="search-filter-row">
+        <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+        <FilterBar
+          priority={priorityFilter}
+          status={statusFilter}
+          onPriorityChange={setPriorityFilter}
+          onStatusChange={setStatusFilter}
+        />
+        <SortDropdown 
+          sort={sortOption} 
+          onSortChange={setSortOption} 
+        />
+      </div>
+
       <div className="app-layout">
         <Sidebar>
-          <div className="sidebar-search-filter">
-            <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
-            <FilterBar
-              priority={priorityFilter}
-              status={statusFilter}
-              onPriorityChange={setPriorityFilter}
-              onStatusChange={setStatusFilter}
-            />
-            <SortDropdown 
-              sort={sortOption} 
-              onSortChange={setSortOption} 
-            />
-          </div>
           <ConversationList
             conversations={sortedConversations}
             onSelect={(conversation) => setSelectedConversationId(conversation.id)}

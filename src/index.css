@@ -107,7 +107,6 @@ body {
   display: flex;
   flex: 1;
   overflow: hidden;
-  height: calc(100vh - 65px);
 }
 
 /* Sidebar Layout */
@@ -180,10 +179,28 @@ body {
 }
 
 /* Filter components style */
-.filter-bar {
+.search-filter-row {
   display: flex;
-  gap: 12px;
+  align-items: flex-end;
+  gap: 24px;
+  padding: 16px 24px;
+  background-color: var(--bg-sidebar);
+  border-bottom: 1px solid var(--border-color);
   width: 100%;
+}
+
+.search-filter-row .search-container {
+  flex: 1.5;
+}
+
+.search-filter-row .filter-bar {
+  display: flex;
+  gap: 16px;
+  flex: 2;
+}
+
+.search-filter-row .sort-dropdown {
+  flex: 1;
 }
 
 .filter-group {
@@ -235,6 +252,8 @@ body {
 .conversation-list {
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
 }
 
 .conversation-card {
@@ -554,7 +573,7 @@ body {
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(168, 85, 247, 0.04) 100%);
   border: 1px solid rgba(99, 102, 241, 0.25);
   border-radius: 12px;
-  padding: 20px;
+  padding: 9px 15px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   position: relative;
   overflow: hidden;
