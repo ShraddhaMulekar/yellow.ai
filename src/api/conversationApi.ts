@@ -22,3 +22,15 @@ export const assignConversation = async (id: string) => {
 
   return response.json();
 };
+
+export const resolveConversation = async (id: string) => {
+  const response = await fetch(`/conversations/${id}/resolve`, {
+    method: "PATCH",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to resolve conversation");
+  }
+
+  return response.json();
+};
