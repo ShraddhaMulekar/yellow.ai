@@ -1,11 +1,10 @@
-import { http, delay, HttpResponse } from "msw";
+import { http, HttpResponse, delay } from "msw";
 import { conversations } from "./data";
 
-export const handlers =[
-    // GET all conversations
-    http.get("/conversations", async () => {
-        // Simulate network delay
-        await delay(500);
-        return HttpResponse.json(conversations, { status: 200 });
-    })
-]
+export const handlers = [
+  http.get("/conversations", async () => {
+    await delay(500);
+
+    return HttpResponse.json(conversations);
+  }),
+];

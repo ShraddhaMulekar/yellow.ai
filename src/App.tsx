@@ -1,12 +1,17 @@
-import './App.css'
+import { useEffect } from "react";
+import { getConversations } from "./api/conversationApi";
 
 function App() {
-  
-  return(
-    <>
-      <h1>Hello, Vite + React!</h1>
-    </>
-  )
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getConversations();
+      console.log(data);
+    }
+
+    fetchData();
+  }, []);
+
+  return <h1>Conversation Inbox</h1>;
 }
 
-export default App
+export default App;
