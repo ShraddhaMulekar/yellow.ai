@@ -39,6 +39,7 @@ const ConversationDetails = ({ conversation }: ConversationDetailsProps) => {
       <ActionButtons
         id={conversation.id}
         assignedTo={conversation.assignedTo}
+        status={conversation.status}
       />
     </div>
   );
