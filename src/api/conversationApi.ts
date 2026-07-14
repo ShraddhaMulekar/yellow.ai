@@ -10,3 +10,15 @@ export const getConversations = async (): Promise<Conversation[]> => {
 
   return response.json();
 };
+
+export const assignConversation = async (id: string) => {
+  const response = await fetch(`/conversations/${id}/assign`, {
+    method: "PATCH",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to assign conversation");
+  }
+
+  return response.json();
+};
