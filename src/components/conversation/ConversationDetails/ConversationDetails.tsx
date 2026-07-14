@@ -1,4 +1,5 @@
 import type { Conversation } from "../../../types/conversation";
+import ActionButtons from "../ActionButtons";
 
 interface ConversationDetailsProps {
   conversation: Conversation | null;
@@ -34,6 +35,11 @@ const ConversationDetails = ({ conversation }: ConversationDetailsProps) => {
       <p>AI Confidence: {conversation.aiConfidence}%</p>
 
       <p>Sentiment: {conversation.sentiment}</p>
+
+      <ActionButtons
+        id={conversation.id}
+        assignedTo={conversation.assignedTo}
+      />
     </div>
   );
 };
