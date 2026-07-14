@@ -1,29 +1,56 @@
 import { useAssignConversation } from "../../../hooks/useAssignConversation";
+import { useResolveConversation } from "../../../hooks/useResolveConversation";
 
 interface ActionButtonsProps {
   id: string;
   assignedTo: string | null;
+  status: "Open" | "Assigned" | "Resolved";
 }
 
 function ActionButtons({
   id,
   assignedTo,
+  status,
 }: ActionButtonsProps) {
-  const { mutate, isPending } = useAssignConversation();
+  const {
+    mutate: assignMutate,
+    isPending: isAssigning,
+  } = useAssignConversation();
 
-  const handleAssign = () => {
-    mutate(id);
-  };
+  const {
+    mutate: resolveMutate,
+    isPending: isResolving,
+  } = useResolveConversation();
 
-  return (
-    <div>
-      <button
-        onClick={handleAssign}
-        disabled={assignedTo !== null || isPending}
-      >
-        {isPending ? "Assigning..." : "Assign"}
+  // Already resolved
+  if (status === "Resolved") {
+    return (
+      <button disabled>
+        Resolved
       </button>
-    </div>
+    );
+  }
+
+  // Not assigned yet
+  if (assignedTo === null) {
+    return (
+      <button
+        onClick={() => assignMutate(id)}
+        disabled={isAssigning}
+      >
+        {isAssigning ? "Assigning..." : "Assign"}
+      </button>
+    );
+  }
+
+  // Assigned but not resolved
+  return (
+    <button
+      onClick={() => resolveMutate(id)}
+      disabled={isResolving}
+    >
+      {isResolving ? "Resolving..." : "Resolve"}
+    </button>
   );
 }
 
