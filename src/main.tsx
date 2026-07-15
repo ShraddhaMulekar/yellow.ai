@@ -6,9 +6,9 @@ import ReactQueryProvider from "./providers/ReactQueryProvider";
 import { worker } from "./mocks/browser";
 
 async function enableMocking() {
-  if (import.meta.env.DEV) {
-    await worker.start();
-  }
+  await worker.start({
+    onUnhandledRequest: "bypass",
+  });
 }
 
 enableMocking().then(() => {
